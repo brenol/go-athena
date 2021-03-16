@@ -80,6 +80,7 @@ func (d *Driver) Open(connStr string) (driver.Conn, error) {
 		db:             cfg.Database,
 		OutputLocation: cfg.OutputLocation,
 		pollFrequency:  cfg.PollFrequency,
+		workgroup:      cfg.Workgroup,
 	}, nil
 }
 
@@ -115,6 +116,7 @@ type Config struct {
 	Session        *session.Session
 	Database       string
 	OutputLocation string
+	Workgroup      string
 
 	PollFrequency time.Duration
 }
@@ -138,6 +140,7 @@ func configFromConnectionString(connStr string) (*Config, error) {
 
 	cfg.Database = args.Get("db")
 	cfg.OutputLocation = args.Get("output_location")
+	cfg.Workgroup = args.Get("workgroup")
 
 	frequencyStr := args.Get("poll_frequency")
 	if frequencyStr != "" {

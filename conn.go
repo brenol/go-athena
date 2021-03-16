@@ -15,6 +15,7 @@ type conn struct {
 	athena         athenaiface.AthenaAPI
 	db             string
 	OutputLocation string
+	workgroup      string
 
 	pollFrequency time.Duration
 }
@@ -58,6 +59,7 @@ func (c *conn) runQuery(ctx context.Context, query string) (driver.Rows, error) 
 // startQuery starts an Athena query and returns its ID.
 func (c *conn) startQuery(query string) (string, error) {
 	resp, err := c.athena.StartQueryExecution(&athena.StartQueryExecutionInput{
+		WorkGroup:   aws.String(c.workgroup),
 		QueryString: aws.String(query),
 		QueryExecutionContext: &athena.QueryExecutionContext{
 			Database: aws.String(c.db),
